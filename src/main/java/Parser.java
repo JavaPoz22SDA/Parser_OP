@@ -2,9 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Parser {
 
@@ -43,4 +41,36 @@ public class Parser {
 
         return newListEstate;
     }
+
+    public Map<String, List<RealEstate>> groupByCity (List<RealEstate> realEstates){
+        Map<String, List<RealEstate>> map = new HashMap<>();
+        for(RealEstate realEstate : realEstates){
+            if( map.containsKey(realEstate.getCity())){
+                List<RealEstate> list;
+                list = map.get(realEstate.getCity());
+                list.add(realEstate);
+                map.put(realEstate.getCity(), list);
+            } else {
+                List<RealEstate> list = new ArrayList<>();
+                list.add(realEstate);
+                map.put(realEstate.getCity(), list);
+            }
+        }
+        return map;
+    }
+
+    public Map<String, Integer> countByCity(List<RealEstate> realEstates){
+        Map<String, Integer> map = new HashMap<>();
+        for( RealEstate realEstate : realEstates){
+            if (map.containsKey(realEstate.getCity())){
+                Integer value = map.get(realEstate.getCity());
+                value = value + 1;
+                map.put(realEstate.getCity(), value);
+            } else {
+                map.put(realEstate.getCity(), 1);
+            }
+        }
+        return map;
+    }
+
 }
